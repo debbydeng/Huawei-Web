@@ -5,25 +5,21 @@ $(function(){
         var timer = null;
 
         function hideIt() {
-            $(".cateContent .hide").filter(":visible").stop(true, false).slideUp(500);
+            $(".cateContent .hide").filter(":visible").stop(true, false).delay(500).slideUp(500);
             $(".category li").removeClass("changeRed");
             $(".category li i").addClass("active")
 
         }
 
         $(document).on("mouseenter", ".category li:lt(9)", function () {
+            hideIt();
+			    timer!=null? clearTimeout(timer) : timer=null;
                 var $thisIndex = $(this).index();
-                var $lastIndex = $(".category li.changeRed").index();
                 if ($thisIndex == 0) {
                     $(".category li i").removeClass("active");
                 }
                 $(this).addClass("changeRed").siblings().removeClass("changeRed");
-                if ($lastIndex >= 0) {
-                    $(".cateContent .hide").eq($thisIndex).stop(true, true).slideDown(500);
-                } else {
-                    $(".cateContent .hide").eq($lastIndex).stop(true, true).delay(500).slideUp(500);
-                    $(".cateContent .hide").eq($thisIndex).stop(true, true).delay(500).slideDown(500);
-                }
+                $(".cateContent .hide").eq($thisIndex).stop(true, true).delay(500).slideDown(500);
             })
 
             .on("mouseleave", ".category li:lt(9)", function () {
@@ -41,34 +37,46 @@ $(function(){
 //图片轮播
 
     function picSlide(){
-        var i=0,count=$(".banner ul li").length,t;
+        var i=0, a=0,b=3,count=$(".banner ul li").length,t;
         var slideWidth=$(".banner-list div").width();
-        function slide(){
-            i=i<count-1? ++i:0;
+        function slide(direction){
+            var $this=$(".banner-list");
+            if(direction=="left"){
+                a=a<count-1? ++a:0;
+                b=i=a;
+                $this.stop(true,false).animate({left:-slideWidth},1500,function(){
+                    $(this).css({left:0}).find("div:first-child").appendTo($(this)) ;
+                })}
+            else if(direction=="right"){
+                b=b>0? --b: 2 ;
+                a=i=b;
+                $this.find("div:last-child").prependTo($this);
+                $this.css({left:-slideWidth});
+                $this.stop(true,false).animate({left:0},1500,function(){
+                })
+                }
             var _this=$(".banner ul li");
             _this.eq(i).children("div").addClass("white");
             _this.eq(i).siblings().children("div").removeClass("white");
-            $(".banner-list").stop(true,false).animate({left:-slideWidth},1500,function(){
-            $(this).css({left:0})
-                .find("div:first-child").appendTo(this)
-        });
         }
-        
-        
+
         function showAuto(){
             t=setInterval(function(){
-               slide();
-            },3000)
+               slide("right");
+            },2000)
         }
         showAuto();
         $(".banner").hover(function(){
-            clearInterval(t)
+            clearInterval(t);
         },function(){
             showAuto();
         });
 
         $(".btn-next").click(function(){
-            slide();
+            slide("left");
+        });
+        $(".btn-prev").click(function(){
+            slide("right");
         });
     }
     picSlide();
@@ -130,6 +138,7 @@ $(function(){
         }).trigger('scroll');
 
 }
+ 
     sideIcon();
 //随机生成验证码
     function createStr(len){

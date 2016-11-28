@@ -5,9 +5,14 @@
 a{
     text-decoration: none;
 }
+body{
+    width:1366px;
+    min-width:1366px;
+}
 /*header样式*/
 header{
-    width:100%;
+    width:1366px;
+    min-width:1366px;
     line-height:38px;
     background:#5d5d58;
     overflow: hidden;
@@ -245,6 +250,8 @@ header li:hover{
     top: 300px;
     left:250px;
 }
+
+
 /*新闻样式*/
 .news{
     margin:10px 5%;
