@@ -8,7 +8,6 @@ $(function(){
             $(".cateContent .hide").filter(":visible").stop(true, false).delay(500).slideUp(400);
             $(".category li").removeClass("changeRed");
             $(".category li i").addClass("active")
-
         }
 
         $(document).on("mouseenter", ".category li:lt(9)", function () {
