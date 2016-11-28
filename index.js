@@ -5,20 +5,21 @@ $(function(){
         var timer = null;
 
         function hideIt() {
-            $(".cateContent .hide").filter(":visible").stop(true, false).delay(500).slideUp(500);
+            $(".cateContent .hide").filter(":visible").stop(true, false).delay(500).slideUp(400);
             $(".category li").removeClass("changeRed");
             $(".category li i").addClass("active")
-
         }
 
         $(document).on("mouseenter", ".category li:lt(9)", function () {
-            hideIt();
-			    timer!=null? clearTimeout(timer) : timer=null;
+           timer!=null? clearTimeout(timer) : timer=null;
                 var $thisIndex = $(this).index();
+            var $lastIndex=$(".category li.changeRed").index();
                 if ($thisIndex == 0) {
                     $(".category li i").removeClass("active");
                 }
                 $(this).addClass("changeRed").siblings().removeClass("changeRed");
+            console.log($lastIndex);
+            $(".cateContent .hide").eq($lastIndex).stop(true, false).delay(500).slideUp(500);
                 $(".cateContent .hide").eq($thisIndex).stop(true, true).delay(500).slideDown(500);
             })
 
