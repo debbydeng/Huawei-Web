@@ -63,10 +63,18 @@ $(function(){
 
         function showAuto(){
             t=setInterval(function(){
-               slide("right");
+               slide("left");
             },2000)
         }
         showAuto();
+        $(window).blur(function(){
+            clearInterval(t);
+        });
+        $(window).focus(function(){
+            t=setInterval(function(){
+                slide("left");
+            },2000)
+        });
         $(".banner").hover(function(){
             clearInterval(t);
         },function(){
